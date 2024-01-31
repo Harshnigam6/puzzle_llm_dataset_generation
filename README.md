@@ -17,3 +17,6 @@ In the final dataset, a data point is a dictionary with the following datastruct
 }
 
 
+![Example GIF](https://github.com/Harshnigam6/puzzle_llm_dataset_generation/blob/main/artifacts/chunk_movement.gif)
+
+
