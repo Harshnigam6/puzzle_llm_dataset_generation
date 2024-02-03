@@ -9,12 +9,15 @@ In the first version of the dataset, we create puzzles by simply dividing an ima
 We repeat the above step for 200 images from COCO dataset on a variety of image classes. For each image, we create 5 puzzles by sampling different chunks to move. We also keep the number of chunks to move in the puzzle limited to one for preliminary experimentation.
 
 In the final dataset, a data point is a dictionary with the following datastructures:
+
+```
 {
     "image": .png
     (This is the snapshot of an image which has been shuffled to create a puzzle.),
     "instructions": string containing text instructions seperated by commas.
     (An instruction is an operation containing block tag and optimal move like "Move block A right")
 }
+```
 
 ### Dataset
 1. Public dataset for v1 has been pushed to hugging face: [puzzles-for-vision-llm ](https://huggingface.co/datasets/Harshnigm/puzzles-for-vision-llm)
