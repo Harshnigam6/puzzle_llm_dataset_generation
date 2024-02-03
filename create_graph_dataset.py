@@ -1,3 +1,5 @@
+from collections import deque
+
 class Node:
     def __init__(self, x, y):
         self.x = x
@@ -51,32 +53,59 @@ class PathFinder:
 
     def find_paths(self):
         for chunk in self.graph.chunks:
-            self.paths[(chunk.x, chunk.y)] = self._find_paths_from_chunk(chunk, [], set())
+            self.paths[(chunk.x, chunk.y)] = self._find_paths_from_chunk(chunk)
             # break
 
-    def _find_paths_from_chunk(self, chunk, path, visited):
-        visited.add((chunk.x, chunk.y))
-        # print(visited)
+    def _find_paths_from_chunk(self, chunk):
+        queue = deque([(chunk, [])])
         paths = {}
+        visited = set()
 
-        for direction, next_node in chunk.connections.items():
-            if next_node is None or (next_node.x, next_node.y) in visited:
+        while queue:
+            current_chunk, current_path = queue.popleft()
+            current_key = (current_chunk.x, current_chunk.y)
+
+            if current_key in visited:
                 continue
 
-            new_path = path + [direction]
-            # print(new_path)
-            node_key = (next_node.x, next_node.y)
+            visited.add(current_key)
 
-            if not any(c.x == next_node.x and c.y == next_node.y for c in self.graph.chunks):
-                if node_key not in paths or len(new_path) < len(paths[node_key]):
-                    paths[node_key] = new_path
+            for direction, next_node in current_chunk.connections.items():
+                if next_node is None:
+                    continue
 
-            deeper_paths = self._find_paths_from_chunk(next_node, new_path, visited)
-            for key, value in deeper_paths.items():
-                if key not in paths or len(value) < len(paths[key]):
-                    paths[key] = value
+                next_key = (next_node.x, next_node.y)
+                new_path = current_path + [direction]
+
+                if next_key not in paths or len(new_path) < len(paths[next_key]):
+                    paths[next_key] = new_path
+                    queue.append((next_node, new_path))
 
         return paths
+
+    # def _find_paths_from_chunk(self, chunk, path, visited):
+    #     visited.add((chunk.x, chunk.y))
+    #     # print(visited)
+    #     paths = {}
+
+    #     for direction, next_node in chunk.connections.items():
+    #         if next_node is None or (next_node.x, next_node.y) in visited:
+    #             continue
+
+    #         new_path = path + [direction]
+    #         # print(new_path)
+    #         node_key = (next_node.x, next_node.y)
+
+    #         if not any(c.x == next_node.x and c.y == next_node.y for c in self.graph.chunks):
+    #             if node_key not in paths or len(new_path) < len(paths[node_key]):
+    #                 paths[node_key] = new_path
+
+    #         deeper_paths = self._find_paths_from_chunk(next_node, new_path, visited)
+    #         for key, value in deeper_paths.items():
+    #             if key not in paths or len(value) < len(paths[key]):
+    #                 paths[key] = value
+
+    #     return paths
 
 # Example usage
 # graph = Graph(11, 11, [(0, 0), (1, 1), (2, 2)])
