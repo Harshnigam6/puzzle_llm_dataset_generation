@@ -19,7 +19,7 @@ In the final dataset, a data point is a dictionary with the following datastruct
 ### Dataset
 1. Public dataset for v1 has been pushed to hugging face: [puzzles-for-vision-llm ](https://huggingface.co/datasets/Harshnigm/puzzles-for-vision-llm)
 2. The dataset contains about 1000 puzzles. 
-3. Currntly all the data is stored under train split.
+3. Currently all the data is stored under train split.
 
 
 
